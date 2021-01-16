@@ -33,7 +33,6 @@ const Lista = ({ pokemons, acSetPokemonList }) => {
         // ao chegar no fim da página
         setLimit(limit + 20);
         setOffset(offset + 20);
-        console.log('[pass ==============>>>>>>>>>>')
     }
 
     useEffect(() => {
