@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     FlatList
 } from 'react-native';
@@ -31,8 +31,8 @@ const Lista = ({ pokemons, acSetPokemonList }) => {
         // Atualizamos os valores de limite e offset
         // preparando as variáveis para uma nova busca
         // ao chegar no fim da página
-        setLimit(limit + 20);
         setOffset(offset + 20);
+        setLimit(limit + 20);
     }
 
     useEffect(() => {
@@ -43,16 +43,16 @@ const Lista = ({ pokemons, acSetPokemonList }) => {
         <FlatList
             data={data}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={item => {
+            renderItem={useCallback(item => {
                 const pokemon = item.item;
-
+                
                 return (
                     <Card
                         pokemon={pokemon}
                         index={item.index}
                     />
                 )
-            }}
+            }, [data])}
             initialNumToRender={20}
             onEndReachedThreshold={0.5}
             onEndReached={getData}

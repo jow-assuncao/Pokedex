@@ -12,7 +12,9 @@ import * as axios from 'axios';
 const Card = ({ pokemon }) => {
     const [pokemonThumb, setPokemonThumb] = useState(null);
     const [charDetails, setCharDetails] = useState({});
-    const [pokemonNumber, setPokemonNumber] = useState('')
+    const [pokemonNumber, setPokemonNumber] = useState('');
+    const [didMount, setDidMount] = useState(false);
+
 
     const getCharDetail = async () => {
         // Buscamos os detalhes do personagem
@@ -22,7 +24,7 @@ const Card = ({ pokemon }) => {
         // utilizamos o padStart para encaixar o id
         // do personagem na máscara de 3 dígitos
         const idNumber = JSON.stringify(fetchDetails.id).padStart(3, '0')
-        
+
         setCharDetails(fetchDetails);
         setPokemonThumb(fetchDetails['sprites']['other']['official-artwork']['front_default']);
         setPokemonNumber(idNumber);
@@ -35,11 +37,20 @@ const Card = ({ pokemon }) => {
     }, [])
 
 
+    useEffect(() => {
+        setDidMount(true);
+        return () => setDidMount(false);
+    }, [])
+
+    if (!didMount) {
+        return null;
+    }
+
 
     return (
         <View style={styles.container}>
             <TouchableOpacity
-                onPress={() => navigation.navigate('Char Detail', [pokemon, pokemonThumb, charDetails])}
+                onPress={() => navigation.navigate('Char Detail', [pokemon, pokemonThumb, charDetails, pokemonNumber])}
             >
                 <Image
                     source={{ uri: pokemonThumb }}
@@ -66,7 +77,7 @@ const styles = StyleSheet.create({
         elevation: 10,
         shadowColor: 'black',
         shadowOpacity: .5,
-
+        paddingBottom: 15
     },
     number: {
         fontSize: 14,

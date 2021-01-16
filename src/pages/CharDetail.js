@@ -15,6 +15,7 @@ const CharDetail = ({ route }) => {
     const pokemonName = route.params[0].name;
     const stats = route.params[2].stats;
     const skills = route.params[2].abilities;
+    const pokemonNumber = route.params[3];
 
     const getDescription = async () => {
         // Buscamos a descrição do personagem
@@ -45,7 +46,7 @@ const CharDetail = ({ route }) => {
                         style={styles.img}
                     />
                     <View style={styles.txts}>
-                        <Text style={styles.number}>#001</Text>
+                        <Text style={styles.number}>#{pokemonNumber}</Text>
                         <Text style={styles.name}>{pokemonName}</Text>
                     </View>
                 </View>
@@ -80,8 +81,11 @@ const CharDetail = ({ route }) => {
 
                         {/*HABILIDADES*/}
                         <Text style={styles.statName}>HABILIDADES: </Text>
-                        {skills.map(skill => (
-                            <View style={styles.stats}>
+                        {skills.map((skill, index) => (
+                            <View
+                                style={styles.stats}
+                                key={index.toString()}
+                            >
                                 <Text style={[styles.statValue, { marginLeft: 15 }]}>- {skill.ability.name.toUpperCase()}</Text>
                             </View>
                         ))}
