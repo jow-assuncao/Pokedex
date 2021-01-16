@@ -23,10 +23,9 @@ const Lista = ({ pokemons, acSetPokemonList }) => {
         setData([...data, ...fetchChars.results]);
         acSetPokemonList([...data, ...fetchChars.results]);
 
-        // Atualizamos os valores de limite e offset
-        // preparando as variáveis para uma nova busca
+        // Atualizamos o valor de offset
+        // preparando a variável para uma nova busca
         // ao chegar no fim da página
-        console.log('[offset, limit', `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
         setOffset(offset + 20);
     }
 
