@@ -15,24 +15,19 @@ const Lista = ({ pokemons, acSetPokemonList }) => {
     const [offset, setOffset] = useState(0);
 
     const getData = async () => {
-        // Definimos uma nova lista que irá receber 
-        // os resultados de uma nova busca ao chegar no fim da página
-        let newList = data;
-
         // Realizamos a busca utilizando os valores de limite e offset na requisição
-        const fetchChars = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`).then(response => response.data)
-        fetchChars.results.map(char => newList.push(char));
+        const fetchChars = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`).then(response => response.data);
 
-        // Setamos o state que utiliza a lista que retornou da requisição
-        // e atualizamos o redux que contém a lista de pokemons
-        setData(newList);
-        acSetPokemonList(newList);
+        // Setamos o state que contém a lista que retornou da requisição
+        // e atualizamos o redux que contém a lista de pokemons utilizando spread
+        setData([...data, ...fetchChars.results]);
+        acSetPokemonList([...data, ...fetchChars.results]);
 
         // Atualizamos os valores de limite e offset
         // preparando as variáveis para uma nova busca
         // ao chegar no fim da página
+        console.log('[offset, limit', `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
         setOffset(offset + 20);
-        setLimit(limit + 20);
     }
 
     useEffect(() => {
@@ -44,8 +39,8 @@ const Lista = ({ pokemons, acSetPokemonList }) => {
             data={data}
             keyExtractor={(item, index) => index.toString()}
             renderItem={useCallback(item => {
-                const pokemon = item.item;
                 
+                const pokemon = item.item;
                 return (
                     <Card
                         pokemon={pokemon}
@@ -54,7 +49,7 @@ const Lista = ({ pokemons, acSetPokemonList }) => {
                 )
             }, [data])}
             initialNumToRender={20}
-            onEndReachedThreshold={0.5}
+            onEndReachedThreshold={0.1}
             onEndReached={getData}
             showsVerticalScrollIndicator={false}
         />
