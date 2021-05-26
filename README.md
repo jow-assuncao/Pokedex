@@ -17,7 +17,7 @@ ao término da instalação iniciar a aplicação com:
 ```
 react-native run-start
 ```
-ou
+e em outro terminal
 ```
 npm start
 ```
